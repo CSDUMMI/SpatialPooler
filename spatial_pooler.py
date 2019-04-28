@@ -7,6 +7,6 @@ def permanence(state):
 
 def potential_pool(state):
 
-def spatial_pooler(state):
+def spatial_pooler(state,sp):
     #State: Input SDR as np.array (bool)
     return activation(permanence(potential_pool(state)))
