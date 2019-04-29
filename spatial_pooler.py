@@ -9,7 +9,7 @@ class SpatialPooler():
 
     def __init__(self,num_collumns,threshhold_permances=0.5,threshhold_activation=0.6,size_of_potential_pool=0.75):
         self.current_collumn = 0
-        self.thershhold_permanences = threshhold_permances
+        self.threshhold_permanences = threshhold_permances
         self.threshhold_activation = threshhold_activation
         self.collumns = self.init_collumn(num_collumns,1-size_of_potential_pool)
 
@@ -35,7 +35,7 @@ class SpatialPooler():
         """
         For all permanences,filter the state for those that are higher than  self.theta
         """
-        return (self.collumns[self.current_collumn]['permanences'] > self.thershhold_permanence) * state
+        return (self.collumns[self.current_collumn]['permanences'] > self.threshhold_permanences) * state
 
 
     def potential_pool(self,state):

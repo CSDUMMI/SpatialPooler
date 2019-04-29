@@ -14,5 +14,15 @@ def test_activation():
     state = np.random.randn(7) > 0
     for i in range(10000): # 100 different test  cases
         assert spatial_pooler_instance.activation(state) == (np.sum(state)/state.shape[0] > spatial_pooler_instance.threshhold_activation)
+
         elem_to_mutate = np.random.randint(0,7)
         state[elem_to_mutate] = not state[elem_to_mutate] # mutation
+
+def test_permanence():
+    state = np.random.randn(7)  >  0
+    for i in range(10000):
+        state_n = spatial_pooler_instance.permanence(state)
+        assert np.array_equal(state_n,(spatial_pooler_instance.collumns[spatial_pooler_instance.current_collumn]['permanences'] > spatial_pooler_instance.threshhold_permanences) * state)
+
+        elem_to_mutate = np.random.randint(0,7)
+        state[elem_to_mutate] = not state[elem_to_mutate]
