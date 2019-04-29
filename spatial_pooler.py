@@ -13,6 +13,7 @@ class SpatialPooler():
         self.threshhold_activation = threshhold_activation
         self.collumns = self.init_collumn(num_collumns,1-size_of_potential_pool)
 
+
     def init_collumn(self,num_collumns,size_of_potential_pool=0.75):
         collumns = [{} for i in range(num_collumns)]
         for i in range(num_collumns):
@@ -20,12 +21,15 @@ class SpatialPooler():
             collumns[i]['potential_pool'] = np.random.rand(num_collumns) > size_of_potential_pool # Create a random potential pool with a certain percantage of potential connections
         return collumns
 
+
     def activation(self,state):
         """
         Sum state and then compare that to threshhold_activation
         """
-        (length,) = state.shape
-        return np.sum(state)/length > self.threshold_activation
+        length = state.shape[0]
+        return np.sum(state)/length > self.threshhold_activation
+
+
 
     def permanence(self,state):
         """
@@ -33,8 +37,10 @@ class SpatialPooler():
         """
         return (self.collumns[self.current_collumn]['permanences'] > self.thershhold_permanence) * state
 
+
     def potential_pool(self,state):
         return self.collumns[self.current_collumn]['potential_pool'] * state
+
 
     def spatial_pooler(self,state):
         """
