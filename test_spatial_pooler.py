@@ -26,3 +26,13 @@ def test_permanence():
 
         elem_to_mutate = np.random.randint(0,7)
         state[elem_to_mutate] = not state[elem_to_mutate]
+
+        assert type(state_n) == type(state)
+        assert state_n.shape == state.shape
+
+
+def test_potential_pool():
+    state = np.random.randn(7) > 0
+    state_n = spatial_pooler_instance.potential_pool(state)
+    assert type(state_n) == type(np.array([True]))
+    assert state_n.shape == state.shape
