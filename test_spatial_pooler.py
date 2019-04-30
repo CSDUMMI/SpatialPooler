@@ -12,27 +12,33 @@ def test_init_collumn():
 
 def test_activation():
     state = np.random.randn(7) > 0
-    for i in range(10000): # 100 different test  cases
-        assert spatial_pooler_instance.activation(state) == (np.sum(state)/state.shape[0] > spatial_pooler_instance.threshhold_activation)
+    for i in range(1000):
+        state_n = spatial_pooler_instance.activation(state)
+        assert type(state_n) == type(state)
+        assert type(state_n) == type(np.array([True]))
+        assert state_n.shape == state.shape
 
-        elem_to_mutate = np.random.randint(0,7)
-        state[elem_to_mutate] = not state[elem_to_mutate] # mutation
+        mutate = np.random.randint(0,6)
+        state[mutate] = not state[mutate]
 
 def test_permanence():
     state = np.random.randn(7)  >  0
-    for i in range(10000):
+    for i in range(1000):
         state_n = spatial_pooler_instance.permanence(state)
-        assert np.array_equal(state_n,(spatial_pooler_instance.collumns[spatial_pooler_instance.current_collumn]['permanences'] > spatial_pooler_instance.threshhold_permanences) * state)
-
-        elem_to_mutate = np.random.randint(0,7)
-        state[elem_to_mutate] = not state[elem_to_mutate]
-
         assert type(state_n) == type(state)
         assert state_n.shape == state.shape
+
+        mutate = np.random.randint(0,6)
+        state[mutate] = not state[mutate]
 
 
 def test_potential_pool():
     state = np.random.randn(7) > 0
-    state_n = spatial_pooler_instance.potential_pool(state)
-    assert type(state_n) == type(np.array([True]))
-    assert state_n.shape == state.shape
+    for i in range(1000):
+        state_n = spatial_pooler_instance.potential_pool(state)
+        assert type(state_n) == type(np.array([True]))
+        assert type(state) == type(state_n)
+        assert state_n.shape == state.shape
+
+        mutate = np.random(0,6)
+        state[mutate] = not state[mutate]
