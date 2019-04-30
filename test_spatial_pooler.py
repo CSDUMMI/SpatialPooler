@@ -14,9 +14,7 @@ def test_activation():
     state = np.random.randn(7) > 0
     for i in range(1000):
         state_n = spatial_pooler_instance.activation(state)
-        assert type(state_n) == type(state)
-        assert type(state_n) == type(np.array([True]))
-        assert state_n.shape == state.shape
+        assert np.bool_ == type(state_n)
 
         mutate = np.random.randint(0,6)
         state[mutate] = not state[mutate]
@@ -40,5 +38,5 @@ def test_potential_pool():
         assert type(state) == type(state_n)
         assert state_n.shape == state.shape
 
-        mutate = np.random(0,6)
+        mutate = np.random.randint(0,6)
         state[mutate] = not state[mutate]

@@ -27,9 +27,9 @@ class SpatialPooler():
         Sum state and then compare that to threshhold_activation
         """
         length = state.shape[0]
-        return np.sum(state)/length > self.threshhold_activation
-
-
+        state_n = np.sum(state)/length > self.threshhold_activation
+        print(type(state_n))
+        return state_n
 
     def permanence(self,state):
         """
