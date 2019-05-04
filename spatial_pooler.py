@@ -7,18 +7,18 @@ import sys, random, json
 class SpatialPooler():
 
 
-    def __init__(self,num_collumns,threshhold_permances=0.5,threshhold_activation=0.6,size_of_potential_pool=0.75):
+    def __init__(self,num_collumns=128,input_size=256,threshhold_permances=0.5,threshhold_activation=0.6,size_of_potential_pool=0.75):
         self.current_collumn = 0
         self.threshhold_permanences = threshhold_permances
         self.threshhold_activation = threshhold_activation
-        self.collumns = self.init_collumn(num_collumns,1-size_of_potential_pool)
+        self.collumns = self.init_collumn(num_collumns,input_size,1-size_of_potential_pool)
 
 
-    def init_collumn(self,num_collumns,size_of_potential_pool=0.75):
+    def init_collumn(self,num_collumns,input_size,size_of_potential_pool=0.75):
         collumns = [{} for i in range(num_collumns)]
         for i in range(num_collumns):
-            collumns[i]['permanences'] = np.random.rand(num_collumns) # Random values for the permanence between  0-1
-            collumns[i]['potential_pool'] = np.random.rand(num_collumns) > size_of_potential_pool # Create a random potential pool with a certain percantage of potential connections
+            collumns[i]['permanences'] = np.random.rand(input_size) # Random values for the permanence between  0-1
+            collumns[i]['potential_pool'] = np.random.rand(input_size) > size_of_potential_pool # Create a random potential pool with a certain percantage of potential connections
         return collumns
 
 
