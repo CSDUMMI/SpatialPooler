@@ -13,7 +13,7 @@ def test_init_collumn():
 
 
 def test_activation():
-    spatial_pooler_instance.current_collumn = 0
+    spatial_pooler_instance.current = 0
     state = np.random.randn(len(spatial_pooler_instance.collumns[0]['permanences'])) > 0
     for i in range(1000):
         state_n = spatial_pooler_instance.activation(state)
@@ -23,7 +23,7 @@ def test_activation():
         state[mutate] = not state[mutate]
 
 def test_permanence():
-    spatial_pooler_instance.current_collumn = 0
+    spatial_pooler_instance.current = 0
     state = np.random.randn(len(spatial_pooler_instance.collumns[0]['permanences'])) > 0
     for i in range(1000):
         state_n = spatial_pooler_instance.permanence(state)

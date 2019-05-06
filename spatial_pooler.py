@@ -17,8 +17,9 @@ def overlap(x,y):
 
 class SpatialPooler():
 
-    def __init__(self,num_collumns=128,input_size=256,threshhold_permances=0.5,threshhold_activation=0.6,size_of_potential_pool=0.75):
-        self.current_collumn = 0
+    def __init__(self,num_collumns=128,input_size=256,threshhold_permances=0.5,threshhold_activation=0.6,size_of_potential_pool=0.75,permanence_inc=0.01):
+        self.current = 0
+        self.permanence_inc = permanence_inc
         self.threshhold_permanences = threshhold_permances
         self.threshhold_activation = threshhold_activation
         self.collumns = self.init_collumn(num_collumns,input_size,1-size_of_potential_pool)
@@ -42,13 +43,16 @@ class SpatialPooler():
 
     def permanence(self,state):
         """
-        For all permanences,filter the state for those that are higher than  self.theta
+        For all permanences
+        filter all those out that are below self.threshhold_permances
+        And increase those that are above the same by self.permanence_inc
         """
-        return (self.collumns[self.current_collumn]['permanences'] > self.threshhold_permanences) * state
+        active = self.collumns[self.current]['permanences'] > self.threshhold_permances
+        return (self.collumns[self.current]['permanences'] > self.threshhold_permanences) * state
 
 
     def potential_pool(self,state):
-        predicat = self.collumns[self.current_collumn]['potential_pool']
+        predicat = self.collumns[self.current]['potential_pool']
         return np.extract(predicat,state)
 
     def spatial_pooler(self,state):
@@ -60,10 +64,10 @@ class SpatialPooler():
         return self.activation(self.permanence(self.potential_pool(state)))
 
     def run(self,input_sdr):
-        self.current_collumn = 0
+        self.current = 0
         output = np.zeros(len(self.collumns),dtype=np.bool_)
         for i in range(len(self.collumns)):
             output[i] = self.spatial_pooler(input_sdr)
-            self.current_collumn += 1
-        self.current_collumn = 0
+            self.current += 1
+        self.current = 0
         return output
