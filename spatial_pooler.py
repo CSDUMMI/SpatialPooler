@@ -23,9 +23,11 @@ class SpatialPooler():
                     threshhold_permances=0.5,
                     threshhold_activation=0.6,
                     size_of_potential_pool=0.75,
-                    permanence_inc=0.01):
+                    permanence_inc=0.1,
+                    permanence_dec=0.01):
         self.current = 0
         self.permanence_inc = permanence_inc
+        self.permanence_dec = permanence_dec
         self.threshhold_permanences = threshhold_permances
         self.threshhold_activation = threshhold_activation
         self.collumns = self.init_collumn(num_collumns,input_size,1-size_of_potential_pool)
@@ -54,6 +56,9 @@ class SpatialPooler():
         And increase those that are above the same by self.permanence_inc
         """
         active = self.collumns[self.current]['permanences'] > self.threshhold_permanences
+        inactive = self.collumns[self.current]['permanences'] <= self.threshhold_permanences
+        self.collumns[self.current]['permanences'][active] += self.permanence_inc
+        self.collumns[self.current]['permanences'][inactive] -= self.permanence_dec
         return (self.collumns[self.current]['permanences'] > self.threshhold_permanences) * state
 
 
