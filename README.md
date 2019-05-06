@@ -40,4 +40,5 @@ of the SP.
 #### The SP always learns.
 
 More examples and documentation
-in the `.ipynb` files.
+in the `.ipynb` files in the
+`examples` folders.
