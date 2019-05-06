@@ -42,3 +42,27 @@ of the SP.
 More examples and documentation
 in the `.ipynb` files in the
 `examples` folders.
+
+
+## The Architecure and meaning of State -> Potential Pool -> Permanence -> Activation -> State'
+As you may have noted, the description
+of this Repository is State -> Potential Pool -> Permanence -> Activation -> State',
+but what does this mean?
+If your are more into SP Theory, you may noted that this is
+a picture of the SP Algorithm.
+First there is a State, a SDR that is
+also the input to the SP.
+And then for each column in the SP,
+the Algorithm first ignores those
+parts of the state that are not in
+the potential pool, then those
+for which the permanence is less
+than a threshhold.
+After these two extractions,
+the algorithm counts the active
+parts of the state left and
+tests again whether that count
+is greater than a threshhold.
+If so, the collumn upon which these
+steps where executed is activated
+and the output is activated.
