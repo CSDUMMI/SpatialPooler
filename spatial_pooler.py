@@ -17,7 +17,13 @@ def overlap(x,y):
 
 class SpatialPooler():
 
-    def __init__(self,num_collumns=128,input_size=256,threshhold_permances=0.5,threshhold_activation=0.6,size_of_potential_pool=0.75,permanence_inc=0.01):
+    def __init__(   self,
+                    num_collumns=128,
+                    input_size=256,
+                    threshhold_permances=0.5,
+                    threshhold_activation=0.6,
+                    size_of_potential_pool=0.75,
+                    permanence_inc=0.01):
         self.current = 0
         self.permanence_inc = permanence_inc
         self.threshhold_permanences = threshhold_permances
@@ -47,7 +53,7 @@ class SpatialPooler():
         filter all those out that are below self.threshhold_permances
         And increase those that are above the same by self.permanence_inc
         """
-        active = self.collumns[self.current]['permanences'] > self.threshhold_permances
+        active = self.collumns[self.current]['permanences'] > self.threshhold_permanences
         return (self.collumns[self.current]['permanences'] > self.threshhold_permanences) * state
 
 
