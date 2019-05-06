@@ -61,3 +61,5 @@ def test_run():
     # Less than 20% of the output_sp is on.
     # Sparsity
     assert np.sum(output_sp)/output_sp.shape[0] < 0.2
+
+    assert type(output_sp) == type(np.array([],dtype=np.bool_))
