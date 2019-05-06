@@ -61,11 +61,3 @@ def test_run():
     # Less than 20% of the output_sp is on.
     # Sparsity
     assert np.sum(output_sp)/output_sp.shape[0] < 0.2
-
-    # Maintain overlap properties
-    # Overlap count of input_sp with input_sp_1
-    # should be similar to the overlap count
-    # output_sp output_sp_1
-
-    # Should be similar counts
-    assert math.isclose((np.sum(input_sp) / input_sp.shape[0]),(np.sum(output_sp) / output_sp.shape[0]),rel_tol=0.5)
