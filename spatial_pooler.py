@@ -4,8 +4,18 @@ import sys, random, json
 
 
 
-class SpatialPooler():
+def overlap(x,y):
+    # You can't overlap sdrs
+    # with different shapes
+    if x.shape != y.shape:
+        return None
+    result = np.zeros(x.shape,dtype=np.bool_)
+    for i in range(x.shape[0]):
+        result[i] = x[i] and y[i]
+    return result
 
+
+class SpatialPooler():
 
     def __init__(self,num_collumns=128,input_size=256,threshhold_permances=0.5,threshhold_activation=0.6,size_of_potential_pool=0.75):
         self.current_collumn = 0
@@ -17,8 +27,8 @@ class SpatialPooler():
     def init_collumn(self,num_collumns,input_size,size_of_potential_pool=0.75):
         collumns = [{} for i in range(num_collumns)]
         for i in range(num_collumns):
-            collumns[i]['permanences'] = np.random.rand(input_size) # Random values for the permanence between  0-1
             collumns[i]['potential_pool'] = np.random.rand(input_size) > size_of_potential_pool # Create a random potential pool with a certain percantage of potential connections
+            collumns[i]['permanences'] = np.random.rand(np.sum(collumns[i]['potential_pool'])) # Random values for the permanence between  0-1
         return collumns
 
 
@@ -27,9 +37,8 @@ class SpatialPooler():
         Sum state and then compare that to threshhold_activation
         """
         length = state.shape[0]
-        state_n = np.sum(state)/length > self.threshhold_activation
-        print(type(state_n))
-        return state_n
+        print(np.sum(state) / length)
+        return ((np.sum(state)/length) > self.threshhold_activation)
 
     def permanence(self,state):
         """
@@ -39,8 +48,8 @@ class SpatialPooler():
 
 
     def potential_pool(self,state):
-        return self.collumns[self.current_collumn]['potential_pool'] * state
-
+        predicat = self.collumns[self.current_collumn]['potential_pool']
+        return np.extract(predicat,state)
 
     def spatial_pooler(self,state):
         """
@@ -49,3 +58,12 @@ class SpatialPooler():
         Input -> potetial pool -> permanence -> activation -> output
         """
         return self.activation(self.permanence(self.potential_pool(state)))
+
+    def run(self,input_sdr):
+        self.current_collumn = 0
+        output = np.zeros(len(self.collumns),dtype=np.bool_)
+        for i in range(len(self.collumns)):
+            output[i] = self.spatial_pooler(input_sdr)
+            self.current_collumn += 1
+        self.current_collumn = 0
+        return output
